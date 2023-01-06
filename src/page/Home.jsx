@@ -14,11 +14,11 @@ const Home = () => {
     const [data, setData] = useState(false)
 
     const { slug } = useParams();
-    const current_endpoint = getEndpoint();
+    // const current_endpoint = getEndpoint();
 
     // API Call
     useEffect(()=> {
-        fetch(`${BASEAPI}?javtrailers=${btoa(current_endpoint)}`)
+        fetch(`${BASEAPI}?javtrailers=${btoa(getEndpoint)}`)
             .then(res => res.json())
             .then(json => {
                 setData(json[0])
@@ -35,7 +35,7 @@ const Home = () => {
                 !loaded?(
                     <>
                         {
-                            !current_endpoint.match(/^\/(?:videos|casts|studios)/)?(
+                            !getEndpoint.match(/^\/(?:videos|casts|studios)/)?(
                                 <>
                                     <CardSection title='Popular Today' shimmer='6'/>
                                     <ProfileSection title='Popular Cast' shimmer='10'/>
