@@ -14,7 +14,7 @@ const Home = () => {
     const [data, setData] = useState(false)
 
     const { slug } = useParams();
-    const { current_endpoint } = getEndpoint();
+    const current_endpoint = getEndpoint();
 
     // API Call
     useEffect(()=> {
