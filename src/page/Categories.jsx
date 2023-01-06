@@ -4,6 +4,7 @@ import { getEndpoint, BASEAPI } from "../functions";
 // import { getParams } from "../functions";
 
 import TextSection from "../components/TextSection";
+import HeadTag from "../components/single/HeadTag";
 
 const Categories = () => {
     const [loaded, setLoaded] = useState(false)
@@ -35,9 +36,14 @@ const Categories = () => {
                         <TextSection title='Loading...' shimmer='12'/>
                     </>
                 ):(
-                    [...data.categories].map(e => {
-                        return <TextSection title={e.group.name} data={e.links}/>
-                    })
+                    <>
+                        <HeadTag title="Category List"/>
+                        {
+                            [...data.categories].map(e => {
+                                return <TextSection title={e.group.name} data={e.links}/>
+                            })
+                        }
+                    </>
                 )
             }
         </>

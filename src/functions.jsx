@@ -40,6 +40,16 @@ export const getNextPrevPage = (current,max) => {
     }
 }
 
+export const slug2string = (slug) => {
+    let words = slug.split('-');
+  
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    return words.join(' ');
+}
+
 const funcs = {
     siteTitle,
     BASEAPI,
@@ -48,6 +58,7 @@ const funcs = {
     releaseDate,
     getParams,
     getEndpoint,
-    getNextPrevPage
+    getNextPrevPage,
+    slug2string,
 }
 export default funcs

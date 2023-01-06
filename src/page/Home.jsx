@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { getEndpoint, BASEAPI } from "../functions";
+import { getEndpoint, BASEAPI, slug2string } from "../functions";
+
+import { useParams } from 'react-router-dom';
 
 import CardSection from "../components/CardSection";
 import PaginationSection from "../components/PaginationSection";
@@ -11,9 +13,12 @@ const Home = () => {
     const [loaded, setLoaded] = useState(false)
     const [data, setData] = useState(false)
 
+    const { slug } = useParams();
+    const endpoint = getEndpoint();
+
     // API Call
     useEffect(()=> {
-        fetch(`${BASEAPI}?javtrailers=${btoa(getEndpoint())}`)
+        fetch(`${BASEAPI}?javtrailers=${btoa(endpoint)}`)
             .then(res => res.json())
             .then(json => {
                 setData(json[0])
@@ -22,14 +27,15 @@ const Home = () => {
     }, [])
 
     const totalPage = Math.ceil(data.count/24);
+
+    // console.log(data);
     return (
         <>
             {
                 !loaded?(
                     <>
-                        <HeadTag title="Loading"/>
                         {
-                            !getEndpoint().includes('/videos')?(
+                            !endpoint.match(/^\/(?:videos|casts|studios)/)?(
                                 <>
                                     <CardSection title='Popular Today' shimmer='6'/>
                                     <ProfileSection title='Popular Cast' shimmer='10'/>
@@ -41,17 +47,23 @@ const Home = () => {
                     </>
                 ):(
                     <>
-                        <HeadTag title={data.currentPage <= 1 ? 'njir' : 'blok'}/>
                         {
-                            data.hotVideos ? (
+                            data.hotVideos && typeof data.hotVideos === 'object' ? (
                                 <>
                                     <CardSection title='Popular Today' data={data.hotVideos}/>
                                     <ProfileSection title='Popular Cast' data={data.popularCasts} max={10}/>
                                 </>
                             ): null
                         }
-                        <CardSection title='Recent Videos' data={data.videos}/>
+                        <CardSection title={!slug ? 'Recent Videos' : `${slug2string(slug)} Videos`} data={data.videos}/>
                         <PaginationSection current={data.currentPage} max={totalPage}/>
+                        {
+                            slug?(
+                                <HeadTag title={data.currentPage <= 1 ? `${slug2string(slug)} Videos` : `${slug2string(slug)} Videos - Page ${data.currentPage}`}/>
+                            ):(
+                                <HeadTag title={data.currentPage <= 1 ? 'Watch JAV Free' : `Recent Videos - Page ${data.currentPage}`}/>
+                            )
+                        }
                     </>
                 )
             }

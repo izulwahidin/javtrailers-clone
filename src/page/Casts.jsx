@@ -5,6 +5,7 @@ import { getEndpoint, BASEAPI, getParams } from "../functions";
 import TextSection from "../components/TextSection";
 import PaginationSection from "../components/PaginationSection";
 import ProfileSection from "../components/ProfileSection";
+import HeadTag from "../components/single/HeadTag";
 
 const Casts = () => {
     const [loaded, setLoaded] = useState(false)
@@ -38,8 +39,9 @@ const Casts = () => {
                     </>
                 ):(
                     <>
+                        <HeadTag title={data.currentPage <= 1 ? 'Casts' : `Cast Lists Page ${data.currentPage}`}/>
                         {
-                            data.popularCasts !== '[]'?(
+                            typeof data.popularCasts === 'object' ?(
                                 <>
                                     <ProfileSection title='Popular Cast' data={data.popularCasts}/>
                                 </>

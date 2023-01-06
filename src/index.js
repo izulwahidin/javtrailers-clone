@@ -20,10 +20,12 @@ export default function App() {
             <Route exact path="/" element={<Home/>} />
             <Route path="/videos" element={<Home/>} />
             <Route path="/casts" element={<Casts/>} />
-            <Route path="/casts/:slug" element={<Casts/>} />
             <Route path="/categories" element={<Categories/>} />
             <Route path="/studios" element={<Studios/>} />
-            <Route path="/video/:id" element={<Categories/>} />
+            
+            <Route path="/casts/:slug" element={<Home/>} />
+            <Route path="/studios/:slug" element={<Home/>} />
+            {/* <Route path="/video/:slug" element={<Categories/>} /> */}
             <Route path="*" element={<NoPage/>} />
         </Routes>
         <Footer/>
